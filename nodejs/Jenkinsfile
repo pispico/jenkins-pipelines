@@ -1,0 +1,55 @@
+node {
+
+    //Configuring the nodejs global tools
+    def nodeHome = tool name: 'nodejs', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    env.PATH = "${nodeHome}:${nodeHome}/bin:${env.PATH}"
+
+    //environment variables
+    def appName = "vanhack-front"
+    def registryHost = "127.0.0.1:30400/"
+    def imageName = "${registryHost}${appName}:${env.BUILD_ID}"
+    def namespace = 'applications'
+
+
+    checkout scm
+
+    //Just printing values from necessary tools
+    stage('Environment Info') {
+        echo env.PATH
+        sh "node -v"
+        sh "npm -v"
+        sh "npm i -g @angular/cli@7.0.4"
+        sh "npm install --unsafe-perm node-sass"
+        sh "ng -v"
+    }
+
+
+    //-----Build start here
+    stage("NPM Install"){
+        sh 'npm install'
+    }
+
+
+
+    stage("Buiding App"){
+        sh 'ng build'
+    }
+
+    //-----Build ends here
+
+
+    //-----Build an imagem with the build ID and one as latest
+     stage("Docker Build"){
+        def customImage = docker.build("${registryHost}${appName}:${env.BUILD_ID}", ".")
+        customImage.push()
+        customImage.push('latest')
+     }
+
+
+
+    stage("Deploy"){
+        sh "kubectl set image deployment ${appName} ${appName}=${imageName} -n ${namespace}"
+        sh "kubectl rollout status deployment/${appName} -n ${namespace}"
+    }
+
+}

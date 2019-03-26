@@ -1,0 +1,7 @@
+#!/usr/bin/env groovy
+@Library("jenkins-pipeline-library") _
+java-spring-pipeline {
+  projectName = 'my-application-name'
+  projectRepo = 'https://github.com/pispico/vanhack-front.git'
+  projectPrefixNamespace = 'my-openshift-namespace'
+}
