@@ -3,5 +3,5 @@
 java-spring-pipeline {
   projectName = 'my-application-name'
   projectRepo = 'https://github.com/pispico/vanhack-front.git'
-  projectPrefixNamespace = 'my-openshift-ns'
+  projectPrefixNamespace = 'my-openshift-namespace'
 }
