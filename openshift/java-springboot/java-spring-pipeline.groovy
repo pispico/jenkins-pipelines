@@ -186,7 +186,7 @@ def call(body){
 			stage('Push Image') {
 				steps {
 					script {
-						if ((env.BRANCH_NAME ==~ /^release.*/ || env.BRANCH_NAME ==~ /^hotfix.*/) && !env.CHANGE_ID) {
+						if ((env.BRANCH_NAME ==~ /^pirombeta.*/ || env.BRANCH_NAME ==~ /^hotfix.*/) && !env.CHANGE_ID) {
 							openshift.withCluster() {
 								openshift.withProject("${NAMESPACE}") {
 									openshift.tag("${PROJECT_NAME}:latest", "${PROJECT_NAME}:${VERSION}")
