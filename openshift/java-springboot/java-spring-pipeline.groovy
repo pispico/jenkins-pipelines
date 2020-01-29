@@ -98,7 +98,7 @@ def call(body){
 		        			echo ceTask.toString()
 		        			return "SUCCESS".equals(ceTask.task.status)
 		      			}
-		      			def qualityGateUrl = "http://sonar.viavarejo.com.br/api/qualitygates/project_status?analysisId=" + ceTask.task.analysisId
+		      			def qualityGateUrl = "http://xxxxx/api/qualitygates/project_status?analysisId=" + ceTask.task.analysisId
 		      			sh "curl $qualityGateUrl -o qualityGate.json"
 		      			def qualityGate = readJSON file: 'qualityGate.json'
 		      			echo qualityGate.toString()
@@ -125,7 +125,7 @@ def call(body){
 					script {
 						if ((env.BRANCH_NAME ==~ /^release.*/ || env.BRANCH_NAME ==~ /^hotfix.*/) && !env.CHANGE_ID) {
 							withCredentials([usernamePassword(credentialsId: 'bitbucket-prod', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-								sh "git config --global user.email 'alm.jenkins@viavarejo.com.br'"
+								sh "git config --global user.email 'alm.jenkins@.com.br'"
 								sh "git config --global user.name 'Jenkins'"
 
 								sh "git add -A"
